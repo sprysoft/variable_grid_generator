@@ -1,0 +1,181 @@
+/*
+	Variable Grid System (Fluid Version).
+	Learn more ~ http://www.spry-soft.com/grids/
+	Based on 960 Grid System - http://960.gs/ & 960 Fluid - http://www.designinfluences.com/
+
+	Licensed under GPL and MIT.
+*/
+<%
+	column_amount = params[:column_amount].to_i
+	column_width = params[:column_width].to_i
+	margin_width = params[:gutter_width].to_i / 2	
+	gutter_width = params[:gutter_width].to_i
+
+	overall_width = 100 - (column_amount * 2).to_f
+	one_grid = (overall_width / column_amount)
+	
+%>
+
+/* Containers
+----------------------------------------------------------------------------------------------------*/
+.container_<%= column_amount %> {
+	width: 92%;
+	margin-left: 4%;
+	margin-right: 4%;
+}
+
+/* Grid >> Global
+----------------------------------------------------------------------------------------------------*/
+<%
+	i = 1
+	string = ""
+	while i <= column_amount do
+		if i == column_amount
+			string = string + ".grid_" + i.to_s + " {\n"
+			string = string + "\tdisplay:inline;\n\tfloat: left;\n\tposition: relative;"
+			string = string + "\n\tmargin-left: 1%;" + "\n\tmargin-right: 1%;"
+			string = string + "\n}"
+		else
+			string = string + ".grid_" + i.to_s + ",\n"
+		end
+		i += 1
+	end
+-%>
+<%= string %>
+
+/* Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+
+.alpha {
+	margin-left: 0;
+}
+
+.omega {
+	margin-right: 0;
+}
+
+/* Grid >> <%= column_amount %> Columns
+----------------------------------------------------------------------------------------------------*/
+
+<%
+	i = 1
+	string = ""
+	temp_width = one_grid
+
+	while i <= column_amount do
+		string = string + ".container_#{column_amount} .grid_" + i.to_s + " {\n"
+		string = string + "\twidth:" + temp_width.round(3).to_s + "%;"
+		string = string + "\n}\n\n"
+		temp_width = temp_width + (one_grid + 2)
+		i += 1
+	end
+-%>
+<%= string %>
+
+/* Prefix Extra Space >> <%= column_amount %> Columns
+----------------------------------------------------------------------------------------------------*/
+
+<%
+	i = 1
+	string = ""
+	temp_width = one_grid + 2
+	while i < column_amount do
+		string = string + ".container_#{column_amount} .prefix_" + i.to_s + " {\n"
+		string = string + "\tpadding-left:" + temp_width.round(3).to_s + "%;"
+		string = string + "\n}\n\n"
+		temp_width = temp_width + (one_grid + 2)
+		i += 1
+	end
+-%>
+<%= string %>
+
+/* Suffix Extra Space >> <%= column_amount %> Columns
+----------------------------------------------------------------------------------------------------*/
+
+<%
+	i = 1
+	string = ""
+	temp_width = one_grid + 2
+	while i < column_amount do
+		string = string + ".container_#{column_amount} .suffix_" + i.to_s + " {\n"
+		string = string + "\tpadding-right:" + temp_width.round(3).to_s + "%;"
+		string = string + "\n}\n\n"
+		temp_width = temp_width + (one_grid + 2)
+		i += 1
+	end
+-%>
+<%= string %>
+
+/* Push Space >> <%= column_amount %> Columns
+----------------------------------------------------------------------------------------------------*/
+
+<%
+	i = 1
+	string = ""
+	temp_width = one_grid + 2
+	while i < column_amount do
+		string = string + ".container_#{column_amount} .push_" + i.to_s + " {\n"
+		string = string + "\tleft:" + temp_width.round(3).to_s + "%;"
+		string = string + "\n}\n\n"
+		temp_width = temp_width + (one_grid + 2)
+		i += 1
+	end
+-%>
+<%= string %>
+
+/* Pull Space >> <%= column_amount %> Columns
+----------------------------------------------------------------------------------------------------*/
+
+<%
+	i = 1
+	string = ""
+	temp_width = one_grid + 2
+	while i < column_amount do
+		string = string + ".container_#{column_amount} .pull_" + i.to_s + " {\n"
+		string = string + "\tleft:-" + temp_width.round(3).to_s + "%;"
+		string = string + "\n}\n\n"
+		temp_width = temp_width + (one_grid + 2)
+		i += 1
+	end
+-%>
+<%= string %>
+
+
+/* Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+/* http://perishablepress.com/press/2008/02/05/lessons-learned-concerning-the-clearfix-css-hack */
+
+.clearfix:after {
+	clear: both;
+	content: ' ';
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+
+.clearfix {
+	display: block;
+}

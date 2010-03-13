@@ -1,0 +1,189 @@
+/*
+	Variable Grid System.
+	Learn more ~ http://www.spry-soft.com/grids/
+	Based on 960 Grid System - http://960.gs/
+
+	Licensed under GPL and MIT.
+*/
+<%
+	column_amount = params[:column_amount].to_i
+	column_width = params[:column_width].to_i
+	margin_width = params[:gutter_width].to_i / 2	
+	gutter_width = params[:gutter_width].to_i
+
+	gutter = params[:gutter_width].to_i & 1 == 1 ? 'ODD' : 'EVEN'
+
+	if gutter == 'EVEN'
+		left_margin_width = margin_width
+		right_margin_width = margin_width
+	else
+		left_margin_width = margin_width + 1
+		right_margin_width = margin_width
+	end
+
+	has_grid("test")
+%>
+
+/* Containers
+----------------------------------------------------------------------------------------------------*/
+.container_<%= column_amount %> {
+	margin-left: auto;
+	margin-right: auto;
+	width: <%= (column_width * column_amount) + (column_amount * gutter_width) %>px;
+}
+
+/* Grid >> Global
+----------------------------------------------------------------------------------------------------*/
+
+<%
+	i = 1
+	string = ""
+	while i <= column_amount do
+		if i == column_amount
+			string = string + ".grid_" + i.to_s + " {\n"
+			string = string + "\tdisplay:inline;\n\tfloat: left;\n\tposition: relative;"
+			string = string + "\n\tmargin-left: " + left_margin_width.to_s + "px;" + "\n\tmargin-right: " + right_margin_width.to_s + "px;"
+			string = string + "\n}"
+		else
+			string = string + ".grid_" + i.to_s + ",\n"
+		end
+		i += 1
+	end
+-%>
+<%= string %>
+
+/* Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+
+.alpha {
+	margin-left: 0;
+}
+
+.omega {
+	margin-right: 0;
+}
+
+/* Grid >> <%= column_amount %> Columns
+----------------------------------------------------------------------------------------------------*/
+
+<%
+	i = 1
+	string = ""
+	temp_width = column_width
+	while i <= column_amount do
+		string = string + ".container_#{column_amount} .grid_" + i.to_s + " {\n"
+		string = string + "\twidth:" + temp_width.to_s + "px;"
+		string = string + "\n}\n\n"
+		temp_width = temp_width + (column_width + gutter_width)
+		i += 1
+	end
+-%>
+<%= string %>
+
+/* Prefix Extra Space >> <%= column_amount %> Columns
+----------------------------------------------------------------------------------------------------*/
+
+<%
+	i = 1
+	string = ""
+	temp_width = column_width + gutter_width
+	while i < column_amount do
+		string = string + ".container_#{column_amount} .prefix_" + i.to_s + " {\n"
+		string = string + "\tpadding-left:" + temp_width.to_s + "px;"
+		string = string + "\n}\n\n"
+		temp_width = temp_width + (column_width + gutter_width)
+		i += 1
+	end
+-%>
+<%= string %>
+
+/* Suffix Extra Space >> <%= column_amount %> Columns
+----------------------------------------------------------------------------------------------------*/
+
+<%
+	i = 1
+	string = ""
+	temp_width = column_width + gutter_width
+	while i < column_amount do
+		string = string + ".container_#{column_amount} .suffix_" + i.to_s + " {\n"
+		string = string + "\tpadding-right:" + temp_width.to_s + "px;"
+		string = string + "\n}\n\n"
+		temp_width = temp_width + (column_width + gutter_width)
+		i += 1
+	end
+-%>
+<%= string %>
+
+/* Push Space >> <%= column_amount %> Columns
+----------------------------------------------------------------------------------------------------*/
+
+<%
+	i = 1
+	string = ""
+	temp_width = column_width + gutter_width
+	while i < column_amount do
+		string = string + ".container_#{column_amount} .push_" + i.to_s + " {\n"
+		string = string + "\tleft:" + temp_width.to_s + "px;"
+		string = string + "\n}\n\n"
+		temp_width = temp_width + (column_width + gutter_width)
+		i += 1
+	end
+-%>
+<%= string %>
+
+/* Pull Space >> <%= column_amount %> Columns
+----------------------------------------------------------------------------------------------------*/
+
+<%
+	i = 1
+	string = ""
+	temp_width = column_width + gutter_width
+	while i < column_amount do
+		string = string + ".container_#{column_amount} .pull_" + i.to_s + " {\n"
+		string = string + "\tleft:-" + temp_width.to_s + "px;"
+		string = string + "\n}\n\n"
+		temp_width = temp_width + (column_width + gutter_width)
+		i += 1
+	end
+-%>
+<%= string %>
+
+
+/* Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+/* http://perishablepress.com/press/2008/02/05/lessons-learned-concerning-the-clearfix-css-hack */
+
+.clearfix:after {
+	clear: both;
+	content: ' ';
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+
+.clearfix {
+	display: block;
+}
