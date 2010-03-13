@@ -1,13 +1,29 @@
 VariableGridGenerator
-==================
+=====================
+Variable Grid System: http://www.spry-soft.com/grids
+960 Grid System: http://960.gs
 
-Introduction goes here.
+The variable_grid_generator is a Ruby on Rails plugin that dynamically generates a CSS Grid System
+based on the 960 Grid System by Nathan Smith.
 
 
 Example
 =======
 
-Example goes here.
+12 column grid example
+stylesheet_link_tag has_grid(:grid => 12, :gutter => 10, :column => 60)
 
+16 column grid example
+stylesheet_link_tag has_grid(:grid => 16, :gutter => 10, :column => 40)
 
-Copyright (c) 2010 [name of plugin creator], released under the MIT license
+30 column grid example
+stylesheet_link_tag has_grid(:grid => 30, :gutter => 10, :column => 40) 
+
+Future Versions
+===============
+
+1. Ability to fix width of CSS template.
+2. When run in production the grid file is created
+3. Ability to specify a fluid grid
+
+Copyright (c) 2010 David White, SprySoft Ltd, released under the MIT license
